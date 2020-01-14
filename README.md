@@ -1,6 +1,6 @@
-# User Cards
+# World Countries
 
-An app built for learning purposes. Leveraging just react basics 
+An app leveraging just react basics. This app dislays information of all the countries in the world.
 
 # Prerequisites
 
@@ -42,5 +42,8 @@ We use SemVer for versioning. For the versions available, see the tags on this r
 
 Olusola Ajayi
 
-License
+# License
 This project is licensed under the MIT License - see the LICENSE.md file for details
+
+# Backend API
+https://restcountries.eu/rest/v2/all

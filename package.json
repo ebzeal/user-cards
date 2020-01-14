@@ -2,7 +2,7 @@
   "name": "users-cards",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ebzeal.github.io/user-cards",
+  "homepage": "https://ebzeal.github.io/World-Countries/",
   "dependencies": {
     "gh-pages": "^2.1.1",
     "react": "^16.11.0",
