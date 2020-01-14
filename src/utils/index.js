@@ -1,3 +1,3 @@
-export const filterUtil = (val, searchField) => {
-  return val.toLowerCase().includes(searchField);
+export const filterUtil = (arr, searchFieldVal) => {
+  return arr.toLowerCase().includes(searchFieldVal);
 };

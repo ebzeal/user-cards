@@ -10,8 +10,24 @@
   backface-visibility: hidden;
   transform: translateZ(0);
   transition: transform 0.25s ease-out;
+  justify-content: center;
 }
 
 .card-container:hover {
   transform: scale(1.05);
+}
+
+.card-container > img {
+  max-width: 200px;
+  max-height: 200px;
+  margin: 0px auto;
+}
+
+@media only screen 
+  and (min-device-width: 290px) 
+  and (max-device-width: 494px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .card-container {
+      display: inline-block;
+    }
 }

@@ -1,15 +1,12 @@
 body {
-  margin: 0;
+  margin: 0px auto;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(
-    to left,
-    rgb(113, 113, 114) 0%,
-    rgb(165, 165, 165) 100%
-  );
+  background: url("./assets/1280px-1700_CE_world_map.PNG");
+  background-size: 100%;
 }
 
 code {

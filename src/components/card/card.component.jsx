@@ -2,15 +2,15 @@ import React from "react";
 import "./card.styles.css";
 
 export const Card = props => {
-  const { user } = props;
-  // console.log("TCL: user", user);
+  const { country } = props;
   return (
     <div className="card-container">
       <img
-        alt="user"
-        src={`https://via.placeholder.com/180?text=${user.username}`}
+        alt={country.name}
+        src={country.flag}
       />
-      <h1>{user.name}</h1>
+      <h1>{country.name}</h1>
+      <p> {country.capital} </p>
     </div>
   );
 };
