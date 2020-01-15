@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import { CardList } from "./components/card-list/card-list.component";
 import { SearchBox } from "./components/searchbox/search-box.component";
 import PaginationBar from "./components/pagination/paginationBar";
+import ModalBox from "./components/modal/modal";
+import CountryDetails from "./components/country-details/country-details";
 
 import { filterUtil } from "./utils";
 import "./App.css";
@@ -15,7 +18,9 @@ class App extends Component {
       countries: [],
       searchField: "",
       loaded: false,
-      page: 1
+      page: 1,
+      modalIsOpen: false,
+      countryName: ""
     };
   }
 
@@ -37,9 +42,20 @@ class App extends Component {
     const numberOfPages = Math.ceil(countryNumber / 20);
     let pageNumbers = [];
     for (let i = 1; i <= numberOfPages; i++) {
-      pageNumbers.push(` ${i} `);
+      pageNumbers.push(`${i}`);
     }
-    return pageNumbers;
+    return pageNumbers.map(number => {
+      return (
+        <Router>
+          <Switch>
+            <i className="pagesNumbered">
+              <Link to={`?page=${number}`}> {number} </Link>
+              {/* <Route path={`/`} component={<CardList />} /> */}
+            </i>
+          </Switch>
+        </Router>
+      );
+    });
   };
 
   showPrevPage = () => {
@@ -51,8 +67,27 @@ class App extends Component {
     this.setState({ page: this.state.page + 1 });
   };
 
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  afterOpenModal = () => {
+    // references are now sync'd and can be accessed.
+    // this.subtitle.style.color = "#f00";
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
+  getCountry = val => {
+    this.setState({
+      countryName: val
+    });
+  };
+
   render() {
-    const { countries, searchField, loaded, page } = this.state;
+    const { countries, searchField, loaded, page, countryName } = this.state;
 
     const filteredCountries = countries.filter(country => {
       const { name, capital } = country;
@@ -72,25 +107,31 @@ class App extends Component {
             </h1>
 
             <SearchBox
-              placeholder="search countries"
+              placeholder="search countries by name or capital"
               handleChange={this.handleChange}
             ></SearchBox>
-            <CardList countries={filteredCountries} page={page}></CardList>
-            <div>
-              <p></p>
-              <i
-                class="fa fa-arrow-left"
-                aria-hidden="true"
-                onClick={this.showPrevPage}
-              ></i>
-              {this.getPageNumbers(filteredCountries.length)}
+            <CardList
+              countries={filteredCountries}
+              page={page}
+              openModal={this.openModal}
+              countryName={this.getCountry}
+            />
 
-              <i
-                class="fa fa-arrow-right"
-                aria-hidden="true"
-                onClick={this.showNextPage}
-              ></i>
-            </div>
+            <ModalBox
+              isOpen={this.state.modalIsOpen}
+              onAfterOpen={this.afterOpenModal}
+              onRequestClose={this.closeModal}
+              contentLabel="Example Modal"
+            >
+              <CountryDetails countries={countries} countryName={countryName} />
+            </ModalBox>
+
+            <PaginationBar
+              filteredCountries={filteredCountries}
+              showPrevPage={this.showPrevPage}
+              showNextPage={this.showNextPage}
+              getPageNumbers={this.getPageNumbers}
+            />
           </div>
         ) : (
           <div className="loader">

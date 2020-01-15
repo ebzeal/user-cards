@@ -2,6 +2,10 @@
 
 An app leveraging just react basics. This app dislays information of all the countries in the world.
 
+# Live Demo
+
+https://ebzeal.github.io/World-Countries/
+
 # Prerequisites
 
 A functional computer

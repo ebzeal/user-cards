@@ -30,3 +30,16 @@ h1 {
   justify-content: center;
   margin-top: 20%;
 }
+
+.pagesNumbered {
+  display: inline-block;
+  background-color: #E9E8E8;
+  padding: 3px 10px;
+  margin: 10px 5px 20px 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.pagesNumbered:hover {
+  background-color: #898787;
+}
+
