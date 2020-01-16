@@ -1,6 +1,5 @@
 import React from "react";
 
-import ModalBox from "../modal/modal";
 
 import "./card.styles.css";
 
@@ -10,7 +9,6 @@ export const Card = props => {
   const { country, openModal, countryName } = props;
 
  const setCountryName = () => {
-   const {country, openModal, countryName} = props;
    openModal()
    countryName(country.name)
   }

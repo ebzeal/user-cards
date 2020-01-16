@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import { CardList } from "./components/card-list/card-list.component";
 import { SearchBox } from "./components/searchbox/search-box.component";
-import PaginationBar from "./components/pagination/paginationBar";
 import ModalBox from "./components/modal/modal";
 import CountryDetails from "./components/country-details/country-details";
 
@@ -35,26 +34,6 @@ class App extends Component {
     this.setState({
       page: 1,
       searchField: e.target.value.toLowerCase()
-    });
-  };
-
-  getPageNumbers = (countryNumber = 200) => {
-    const numberOfPages = Math.ceil(countryNumber / 20);
-    let pageNumbers = [];
-    for (let i = 1; i <= numberOfPages; i++) {
-      pageNumbers.push(`${i}`);
-    }
-    return pageNumbers.map(number => {
-      return (
-        <Router>
-          <Switch>
-            <i className="pagesNumbered">
-              <Link to={`?page=${number}`}> {number} </Link>
-              {/* <Route path={`/`} component={<CardList />} /> */}
-            </i>
-          </Switch>
-        </Router>
-      );
     });
   };
 
@@ -125,13 +104,6 @@ class App extends Component {
             >
               <CountryDetails countries={countries} countryName={countryName} />
             </ModalBox>
-
-            <PaginationBar
-              filteredCountries={filteredCountries}
-              showPrevPage={this.showPrevPage}
-              showNextPage={this.showNextPage}
-              getPageNumbers={this.getPageNumbers}
-            />
           </div>
         ) : (
           <div className="loader">

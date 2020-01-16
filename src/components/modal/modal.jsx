@@ -17,7 +17,7 @@ const customStyles = {
     }
   };
 
-// Modal.setAppElement("#root");
+Modal.setAppElement("#root");
 
 const ModalBox = props => {
     
