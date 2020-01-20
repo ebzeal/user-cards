@@ -4,7 +4,7 @@ import './country-details.styles.css';
 
 const CountryDetails = ({countries, countryName}) => {
 
-    const theCountry = countries.filter(country => country.name == countryName)
+    const theCountry = countries.filter(country => country.name === countryName)
     const {name,alpha3Code, capital, flag, callingCodes, region, subregion, population, timezones, borders, nativeName, currencies, languages} = theCountry[0]
     return (
         <div className="modal-box">
@@ -28,7 +28,7 @@ const CountryDetails = ({countries, countryName}) => {
 
         <div className="card">
             Borders:  {borders.map(border=> {
-               const borderCountry = countries.filter(country=>country.alpha3Code==border)
+               const borderCountry = countries.filter(country=>country.alpha3Code===border)
                return <li> {borderCountry[0].name} </li>
 
             })}

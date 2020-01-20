@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import { CardList } from "./components/card-list/card-list.component";
+import { Link, Switch, Route } from "react-router-dom";
+import CardList from "./components/card-list/card-list.component";
 import { SearchBox } from "./components/searchbox/search-box.component";
+import PaginationBar from "./components/pagination/paginationBar";
 import ModalBox from "./components/modal/modal";
 import CountryDetails from "./components/country-details/country-details";
 
@@ -26,7 +27,7 @@ class App extends Component {
   componentDidMount() {
     fetch("https://restcountries.eu/rest/v2/all")
       .then(response => response.json())
-      .then(countries => this.setState({ countries: countries }))
+      .then(countries => this.setState({ countries }))
       .then(loaded => this.setState({ loaded: true }));
   }
 
@@ -37,22 +38,28 @@ class App extends Component {
     });
   };
 
-  showPrevPage = () => {
-    const statePage = this.state.page;
-    return statePage === 1 ? "" : this.setState({ page: statePage - 1 });
+  getPageNumbers = (countryNumber = 250) => {
+    const numberOfPages = Math.ceil(countryNumber / 20);
+
+    let pageNumbers = [];
+    for (let i = 1; i <= numberOfPages; i++) {
+      pageNumbers.push(`${i}`);
+    }
+    return pageNumbers.map(number => {
+      return (
+        <i className="pagesNumbered" onClick={this.setPage}>
+          <Link to={`?page=${number}`}> {number} </Link>
+        </i>
+      );
+    });
   };
 
-  showNextPage = () => {
-    this.setState({ page: this.state.page + 1 });
+  setPage = () => {
+    return {};
   };
 
   openModal = () => {
     this.setState({ modalIsOpen: true });
-  };
-
-  afterOpenModal = () => {
-    // references are now sync'd and can be accessed.
-    // this.subtitle.style.color = "#f00";
   };
 
   closeModal = () => {
@@ -65,36 +72,50 @@ class App extends Component {
     });
   };
 
-  render() {
-    const { countries, searchField, loaded, page, countryName } = this.state;
-
-    const filteredCountries = countries.filter(country => {
+  filteredCountries = (countries, searchField) => {
+    return countries.filter(country => {
       const { name, capital } = country;
       return filterUtil(name, searchField) || filterUtil(capital, searchField);
     });
+  };
+
+  CardListContainer = props => {
+    const { countries, searchField, page } = this.state;
+    const searchCountries = this.filteredCountries(countries, searchField);
+
+    return (
+      <CardList
+        countries={searchCountries}
+        page={page}
+        openModal={this.openModal}
+        countryName={this.getCountry}
+        searchField={searchField}
+        {...props}
+      />
+    );
+  };
+
+  render() {
+    const { countries, searchField, loaded, countryName } = this.state;
+
+    const searchCountries = this.filteredCountries(countries, searchField);
 
     return (
       <>
         {loaded ? (
           <div className="App">
             <h1>
-              {filteredCountries.length === 0
+              {searchCountries.length === 0
                 ? "No Country"
-                : filteredCountries.length === 1
+                : searchCountries.length === 1
                 ? "1 Country"
-                : `${filteredCountries.length} Countries`}
+                : `${searchCountries.length} Countries`}
             </h1>
 
             <SearchBox
               placeholder="search countries by name or capital"
               handleChange={this.handleChange}
             ></SearchBox>
-            <CardList
-              countries={filteredCountries}
-              page={page}
-              openModal={this.openModal}
-              countryName={this.getCountry}
-            />
 
             <ModalBox
               isOpen={this.state.modalIsOpen}
@@ -104,6 +125,15 @@ class App extends Component {
             >
               <CountryDetails countries={countries} countryName={countryName} />
             </ModalBox>
+            <Switch>
+              <Route path="/" render={this.CardListContainer} />;
+            </Switch>
+            <PaginationBar
+              filteredCountries={searchCountries}
+              showPrevPage={this.showPrevPage}
+              showNextPage={this.showNextPage}
+              getPageNumbers={this.getPageNumbers}
+            />
           </div>
         ) : (
           <div className="loader">
